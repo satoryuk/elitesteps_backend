@@ -2,32 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable implements JWTSubject
+class Product extends Model
 {
-    use HasApiTokens, Notifiable;
-
-    protected $primaryKey = 'user_id';
+    protected $table = 'products';
+    protected $primaryKey = 'product_id';
     
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'username',
-        'email',
-        'password',
-        'phone',
-        'gender',
-        'role',
-        'profile',
-        'dob',
+        'product_name',
+        'description',
+        'price',
+        'discount',
+        'stock',
+        'category_id',
+        'brand_id',
+        'image',
         'status',
     ];
 
@@ -50,20 +40,36 @@ class User extends Authenticatable implements JWTSubject
         'emial_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    
     // Relationships
-    // public function orders()
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
+    
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id', 'brand_id');
+    }
+    
+    // public function orderItems()
     // {
-    //     return $this->hasMany(Order::class, 'customer_id', 'user_id');
+    //     return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
     // }
-        /**
+    
+    // public function inventory()
+    // {
+    //     return $this->hasOne(Inventory::class, 'product_id', 'product_id');
+    // }
+
+     /**
      * Get the identifier that will be stored in the JWT.
      *
      * @return mixed
      */
     public function getJWTIdentifier()
     {
-        return (string) $this->getKey();
+        return $this->getKey();
     }
 
     /**
@@ -75,5 +81,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
 }
