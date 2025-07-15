@@ -35,5 +35,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'auth/v1'], function ($rou
     // Brand Routes
     Route::get('/brands', [BrandController::class, 'index']);
     Route::post('/brands', [BrandController::class, 'store']);
+    Route::get('/brands/{id}', [BrandController::class, 'getBrandById']);
+    Route::put('/brands/{id}', [BrandController::class, 'updateBrand']);
+    Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand']);
 
 });
