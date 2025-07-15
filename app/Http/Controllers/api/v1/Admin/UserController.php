@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1\Admin;
 use App\Http\Controllers\api\v1\BaseAPI;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\UserSV;
@@ -47,7 +48,58 @@ class UserController extends BaseAPI
         return $this->successResponse($users, 'Users retrieved successfully', 200);
     }
 
-        /**
+    // Get User by ID
+    public function getUserById($id)
+    {
+        try {
+            $user = $this->userService->getUserById($id);
+            if (!$user) {
+                return $this->errorResponse('User not found', 404);
+            }
+            return $this->successResponse($user, 'User retrieved successfully', 200);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    // Update User
+    public function updateUser(UpdateUserRequest $request, $id)
+    {
+        try {
+            $params = $request->validated();
+            $updatedUser = $this->userService->updateUser($params, $id);
+            return $this->successResponse($updatedUser, 'User updated successfully', 200);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    // Delete User
+    public function deleteUser($id)
+    {
+        try {
+            $this->userService->deleteUser($id);
+            return $this->successResponse(null, 'User deleted successfully', 204);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    // Deactivate User
+    public function deactivateUser($id)
+    {
+        try {
+            $user = $this->userService->deactivateUser($id);
+            if (!$user) {
+                return $this->errorResponse('User not found', 404);
+            }
+            return $this->successResponse($user, 'User deactivated successfully', 200);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(User $user)
