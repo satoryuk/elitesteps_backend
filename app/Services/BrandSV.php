@@ -12,6 +12,7 @@ class BrandSV extends BaseService
         return Brand::query();
     }
 
+    // Get all brands
     public function getAllBrands($params)
     {
         $query = $this->getQuery();
@@ -19,12 +20,15 @@ class BrandSV extends BaseService
         return $this->getAll($query, $params);
     }
 
+    // Create a new brand
     public function createbrand($data){
        try {
             $query = $this->getQuery();
 
             $brand = $query->create([
                 'brand_name'     => $data['brand_name'],
+                'description'   => $data['description'],
+                'logo'          => $data['logo'],
             ]);
             return $brand;
         } catch (\Exception $e) {
@@ -32,6 +36,7 @@ class BrandSV extends BaseService
         }
     }
 
+    // Get brand by ID
     public function getBrandById($id)
     {
         $query =  $this->getQuery();
@@ -39,6 +44,7 @@ class BrandSV extends BaseService
         return $brand;
     }
 
+    // Update brand
     public function updateBrand($data, $id){
        try {
             $query = $this->getQuery();
@@ -50,6 +56,22 @@ class BrandSV extends BaseService
             return $brand;
         } catch (\Exception $e) {
             throw new \Exception('Error updating brand: ' . $e->getMessage(), 500);
+        }
+    }
+
+    // Delete brand
+    public function deleteBrand($id)
+    {
+        try {
+            $query = $this->getQuery();
+            $brand = $query->where('brand_id', $id)->first();
+            if (!$brand) {
+                throw new \Exception('Brand not found', 404);
+            }
+            $brand->delete();
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception('Error deleting brand: ' . $e->getMessage(), 500);
         }
     }
 }
