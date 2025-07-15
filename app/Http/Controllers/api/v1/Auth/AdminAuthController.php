@@ -44,7 +44,6 @@ class AdminAuthController extends BaseAPI
     }
 
     // Refresh Token
-
     public function refreshToken()
     {
         try {
@@ -55,14 +54,14 @@ class AdminAuthController extends BaseAPI
         }
     }
 
-        // Logout
-        public function logout(Request $request)
-        {
-            try {
-                $this->AuthSV->logout($request->user());
-                return $this->successResponse(null, 'Admin logged out successfully');
-            } catch (\Exception $e) {
-                return $this->errorResponse($e->getMessage(), $e->getCode());
-            }
+    // Logout
+    public function logout(Request $request)
+    {
+        try {
+            $this->AuthSV->logout($request->user());
+            return $this->successResponse(null, 'Admin logged out successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
         }
+    }
 }

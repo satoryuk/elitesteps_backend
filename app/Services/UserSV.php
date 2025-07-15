@@ -12,6 +12,7 @@ class UserSV extends BaseService
         return User::query();
     }
 
+    // Get all users
     public function getAllUsers($params)
     {
         $query = $this->getQuery();
@@ -19,6 +20,7 @@ class UserSV extends BaseService
         return $this->getAll($query, $params);
     }   
 
+    // Create a new user
     public function createUser($data){
         try {
             $query = $this->getQuery();
@@ -42,6 +44,7 @@ class UserSV extends BaseService
         }   
     }
 
+    // Get user by ID
     public function getUserById($id)
     {
         $query =  $this->getQuery();
@@ -49,6 +52,7 @@ class UserSV extends BaseService
         return $user;
     }
 
+    // Update user
     public function updateUser($data, $id){
         try {
             // $query = $this->getQuery();
@@ -59,7 +63,20 @@ class UserSV extends BaseService
         }
     }
 
+    // Delete user
+    public function deleteUser($id)
+    {
+        try {
+            $query = $this->getQuery();
+            $user = $query->findOrFail($id);
+            $user->delete();
+            return $user;
+        } catch (\Exception $e) {
+            throw new \Exception('Error deleting user: ' . $e->getMessage(), 500);
+        }
+    }
 
+    // Deactivate user
     public function deactivateUser($id)
     {
         try {

@@ -30,8 +30,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'auth/v1'], function ($rou
     Route::get('/users/{id}', [UserController::class, 'getUserById']);
     Route::put('/users/{user_id}', [UserController::class, 'updateUser']);
     Route::patch('/users/{id}/deactivate', [UserController::class, 'deactivateUser']);
+    Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
     
-
     // Brand Routes
     Route::get('/brands', [BrandController::class, 'index']);
     Route::post('/brands', [BrandController::class, 'store']);
