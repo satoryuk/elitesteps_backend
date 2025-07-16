@@ -12,6 +12,7 @@ class CategorySV extends BaseService
         return Category::query();
     }
 
+    // Get all categories
     public function getAllCategorys($params)
     {
         $query = $this->getQuery();
@@ -19,11 +20,13 @@ class CategorySV extends BaseService
         return $this->getAll($query, $params);
     }
 
+    // Create a new category
     public function createCategory($data){
        try {
             $query = $this->getQuery(); 
             $category = $query->create([
                 'category_name'     => $data['category_name'],
+                'description'   => $data['description'],
             ]);
             return $category;
         } catch (\Exception $e) {
@@ -31,6 +34,7 @@ class CategorySV extends BaseService
         }
     }
 
+    // Get category by ID
     public function getCategoryById($id)
     {
         $query =  $this->getQuery();
@@ -38,6 +42,7 @@ class CategorySV extends BaseService
         return $category;
     }
 
+    // Update category
     public function updateCategory($data, $id){
        try {
             $query = $this->getQuery();
@@ -49,6 +54,21 @@ class CategorySV extends BaseService
             return $category;
         } catch (\Exception $e) {
             throw new \Exception('Error updating Category: ' . $e->getMessage(), 500);
+        }
+    }
+
+    // Delete category
+    public function deleteCategory($id){
+        try {
+            $query = $this->getQuery();
+            $category = $query->where('category_id', $id)->first();
+            if (!$category) {
+                throw new \Exception('Category not found', 404);
+            }
+            $category->delete();
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception('Error deleting category: ' . $e->getMessage(), 500);
         }
     }
 }
