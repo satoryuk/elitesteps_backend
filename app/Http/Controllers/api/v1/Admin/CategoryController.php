@@ -32,7 +32,6 @@ class CategoryController extends BaseAPI
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
-    
     }
 
     // Get All Categories
@@ -60,7 +59,7 @@ class CategoryController extends BaseAPI
             return $this->successResponse($category, 'Category retrieved successfully', 200);
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
-        }
+        } 
     }
 
     // Update Category
