@@ -24,7 +24,6 @@ class BrandSV extends BaseService
     public function createbrand($data){
        try {
             $query = $this->getQuery();
-
             $brand = $query->create([
                 'brand_name'     => $data['brand_name'],
                 'description'   => $data['description'],

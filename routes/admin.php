@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\Auth\AdminAuthController;
 use App\Http\Controllers\api\v1\Admin\UserController;
 use App\Http\Controllers\api\v1\Admin\BrandController;
+use App\Http\Controllers\api\v1\Admin\CategoryController;
 use App\Models\Inventory;
 
 /*///////////////////////////////////////////
@@ -38,5 +39,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'auth/v1'], function ($rou
     Route::get('/brands/{id}', [BrandController::class, 'getBrandById']);
     Route::put('/brands/{id}', [BrandController::class, 'updateBrand']);
     Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand']);
+
+    // Category Routes
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories/{id}', [CategoryController::class, 'getCategoryById']);
+    Route::put('/categories/{id}', [CategoryController::class, 'updateCategory']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
 });
