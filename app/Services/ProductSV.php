@@ -9,9 +9,10 @@ class ProductSV extends BaseService
 {
     protected function getQuery()
     {
-        return Product::query()->with("category");
+        return Product::query()->with("category", "brand");
     }
 
+    // Get all products
     public function getAllProducts($params)
     {
         $query = $this->getQuery();
@@ -19,10 +20,11 @@ class ProductSV extends BaseService
         return $this->getAll($query, $params);
     }
 
+    // Store a new product
     public function createProduct($data){
        try {
             $query = $this->getQuery();
-            $status = isset($data['status']) ? $data['status'] : 1;
+            $status = isset($data['status']) ? $data['status'] :     1;
 
             $product = $query->create([
                 'product_name'     => $data['product_name'],
@@ -41,27 +43,15 @@ class ProductSV extends BaseService
         }
     }
  
+    // Get a product by ID
     public function getProductById($id)
     {
         $query =  $this->getQuery();
         $product = $query->where('product_id', $id)->first();
         return $product;
-    }                 
-
-    public function deactivateProduct($id)
-    {
-        try {
-            $product = $this->getQuery()->findOrFail($id);
-            $newStatus = $product->status == 1 ? 0 : 1; // Toggle status
-
-            $this->getQuery()->where('product_id', $id)->update(['status' => $newStatus]);
-            $product->refresh(); // Refresh the product instance
-            return $product;
-        } catch (\Exception $e) {
-            throw new \Exception('Error toggling user status: ' . $e->getMessage(), 500);
-        }
-    }
-
+    }           
+    
+    // Update a product
     public function updateProduct($data, $id){
        try {
 
@@ -76,5 +66,35 @@ class ProductSV extends BaseService
             throw new \Exception('Error updating product: ' . $e->getMessage(), 500);
         }
     }
- 
+
+    // Disactivate or activate a product
+    public function deactivateProduct($id)
+    {
+        try {
+            $product = $this->getQuery()->findOrFail($id);
+            $newStatus = $product->status == 1 ? 0 : 1; // Toggle status
+
+            $this->getQuery()->where('product_id', $id)->update(['status' => $newStatus]);
+            $product->refresh(); // Refresh the product instance
+            return $product;
+        } catch (\Exception $e) {
+            throw new \Exception('Error toggling user status: ' . $e->getMessage(), 500);
+        }
+    }
+
+    // Delete a product
+    public function deleteProduct($id)
+    {
+        try {
+            $query = $this->getQuery();
+            $product = $query->where('product_id', $id)->first();
+            if (!$product) {
+                throw new \Exception('Product not found', 404);
+            }
+            $product->delete();
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception('Error deleting product: ' . $e->getMessage(), 500);
+        }
+    }
 }

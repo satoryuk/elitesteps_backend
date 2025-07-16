@@ -6,6 +6,7 @@ use App\Http\Controllers\api\v1\Auth\AdminAuthController;
 use App\Http\Controllers\api\v1\Admin\UserController;
 use App\Http\Controllers\api\v1\Admin\BrandController;
 use App\Http\Controllers\api\v1\Admin\CategoryController;
+use App\Http\Controllers\api\v1\Admin\ProductController;
 use App\Models\Inventory;
 
 /*///////////////////////////////////////////
@@ -47,4 +48,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'auth/v1'], function ($rou
     Route::put('/categories/{id}', [CategoryController::class, 'updateCategory']);
     Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
+    // Product Routes
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products/{id}', [ProductController::class, 'getProductById']);
+    Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
+    Route::patch('/products/{id}/deactivate', [ProductController::class, 'deactivateProduct']);
+    Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
 });
