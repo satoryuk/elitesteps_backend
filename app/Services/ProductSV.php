@@ -9,7 +9,7 @@ class ProductSV extends BaseService
 {
     protected function getQuery()
     {
-        return Product::query()->with("category", "brand");
+        return Product::query()->with("type", "brand",);
     }
 
     // Get all products
@@ -33,7 +33,7 @@ class ProductSV extends BaseService
                 'discount'         => $data['discount'],
                 'stock'            => $data['stock'],
                 'brand_id'         => $data['brand_id'],
-                'category_id'      => $data['category_id'],
+                'type_id'      => $data['type_id'],
                 'status'           => $status,
                 'image'            => isset($data['image']) ? $data['image'] : null,
             ]);

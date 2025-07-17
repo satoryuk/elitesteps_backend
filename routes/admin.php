@@ -7,6 +7,7 @@ use App\Http\Controllers\api\v1\Admin\UserController;
 use App\Http\Controllers\api\v1\Admin\BrandController;
 use App\Http\Controllers\api\v1\Admin\CategoryController;
 use App\Http\Controllers\api\v1\Admin\ProductController;
+use App\Http\Controllers\api\v1\Admin\TypeController;
 use App\Models\Inventory;
 
 /*///////////////////////////////////////////
@@ -33,6 +34,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'auth/v1'], function ($rou
     Route::put('/users/{user_id}', [UserController::class, 'updateUser']);
     Route::patch('/users/{id}/deactivate', [UserController::class, 'deactivateUser']);
     Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+
+    // Type Routes
+    Route::get('/types', [TypeController::class, 'index']);
+    Route::post('/types', [TypeController::class, 'store']);
+    Route::get('/types/{id}', [TypeController::class, 'getTypeById']);
+    Route::put('/types/{id}', [TypeController::class, 'updateType']);
+    Route::delete('/types/{id}', [TypeController::class, 'deleteType']);
     
     // Brand Routes
     Route::get('/brands', [BrandController::class, 'index']);
