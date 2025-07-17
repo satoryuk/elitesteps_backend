@@ -15,7 +15,7 @@ class Product extends Model
         'price',
         'discount',
         'stock',
-        'category_id',
+        'type_id',
         'brand_id',
         'image',
         'status',
@@ -42,9 +42,9 @@ class Product extends Model
     ];
     
     // Relationships
-    public function category()
+    public function type()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+        return $this->belongsTo(type::class, 'type_id', 'type_id');
     }
     
     public function brand()

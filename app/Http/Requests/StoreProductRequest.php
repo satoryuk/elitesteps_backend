@@ -28,7 +28,7 @@ class StoreProductRequest extends FormRequest
             'discount' => 'sometimes|numeric|min:0|max:100',
             'stock' => 'required|integer|min:0',
             'brand_id' => 'sometimes|exists:brands,brand_id',
-            'category_id' => 'sometimes|exists:categories,category_id',
+            'type_id' => 'sometimes|exists:types,type_id',
             'image' => 'sometimes|string|max:2048',
             'status' => 'sometimes|integer', // 1 is active, 0 is inactive
         ];
